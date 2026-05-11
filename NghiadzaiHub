@@ -1,0 +1,85 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Tạo GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game.CoreGui
+
+-- Frame chính
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0,220,0,140)
+Frame.Position = UDim2.new(0.5,-110,0.5,-70)
+Frame.BackgroundColor3 = Color3.fromRGB(35,35,35)
+
+-- Tiêu đề
+local Title = Instance.new("TextLabel")
+Title.Parent = Frame
+Title.Size = UDim2.new(1,0,0,25)
+Title.BackgroundTransparency = 1
+Title.Text = "nghiadzai"
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.TextScaled = true
+
+-- Ô nhập speed
+local TextBox = Instance.new("TextBox")
+TextBox.Parent = Frame
+TextBox.Size = UDim2.new(0,180,0,35)
+TextBox.Position = UDim2.new(0.5,-90,0,35)
+TextBox.PlaceholderText = "Nhập speed 1-100"
+TextBox.Text = ""
+TextBox.BackgroundColor3 = Color3.fromRGB(55,55,55)
+TextBox.TextColor3 = Color3.fromRGB(255,255,255)
+
+-- Nút áp dụng
+local ApplyButton = Instance.new("TextButton")
+ApplyButton.Parent = Frame
+ApplyButton.Size = UDim2.new(0,180,0,35)
+ApplyButton.Position = UDim2.new(0.5,-90,0,80)
+ApplyButton.Text = "Áp dụng"
+ApplyButton.BackgroundColor3 = Color3.fromRGB(70,70,70)
+ApplyButton.TextColor3 = Color3.fromRGB(255,255,255)
+
+-- Nút thu nhỏ
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Parent = Frame
+MinimizeButton.Size = UDim2.new(0,25,0,25)
+MinimizeButton.Position = UDim2.new(1,-30,0,0)
+MinimizeButton.Text = "X"
+
+-- Nút mở lại
+local OpenButton = Instance.new("TextButton")
+OpenButton.Parent = ScreenGui
+OpenButton.Size = UDim2.new(0,60,0,30)
+OpenButton.Position = UDim2.new(0,10,0.5,0)
+OpenButton.Text = "Mở"
+OpenButton.Visible = false
+OpenButton.BackgroundColor3 = Color3.fromRGB(35,35,35)
+OpenButton.TextColor3 = Color3.fromRGB(255,255,255)
+
+-- Thu nhỏ menu
+MinimizeButton.MouseButton1Click:Connect(function()
+    Frame.Visible = false
+    OpenButton.Visible = true
+end)
+
+-- Mở lại menu
+OpenButton.MouseButton1Click:Connect(function()
+    Frame.Visible = true
+    OpenButton.Visible = false
+end)
+
+-- Áp dụng speed
+ApplyButton.MouseButton1Click:Connect(function()
+
+    local speed = tonumber(TextBox.Text)
+
+    if speed and speed >= 1 and speed <= 100 then
+
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoid = character:WaitForChild("Humanoid")
+
+        humanoid.WalkSpeed = speed
+
+    end
+end)
